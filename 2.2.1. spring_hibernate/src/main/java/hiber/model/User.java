@@ -1,5 +1,8 @@
 package hiber.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,13 +22,32 @@ public class User {
    @Column(name = "email")
    private String email;
 
-   public User() {}
+   @OneToOne(cascade = CascadeType.ALL)
+   private Car car;
+
+   public Car getCar() {
+      return car;
+   }
+
+   public Car setCar(Car car) {
+      this.car = car;
+      return car;
+   }
+
+   public User() {
+
+   }
    
    public User(String firstName, String lastName, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
    }
+
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "id")
+   private Car userCar;
+
 
    public Long getId() {
       return id;
@@ -57,5 +79,16 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   @Override
+   public String toString() {
+      return "User {" +
+              "id =" + id +
+              ", firstName ='" + firstName + '\'' +
+              ", lastName ='" + lastName + '\'' +
+              ", email ='" + email + '\'' +
+              ", userCar =" + userCar +
+              '}';
    }
 }
